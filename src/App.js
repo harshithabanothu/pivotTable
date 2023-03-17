@@ -3,7 +3,7 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import "./App.css";
 import { myFunction } from "./script";
-
+debugger;
 
 function App() {
   const [expandedDepartments, setExpandedDeparments] = useState([]);
@@ -13,6 +13,7 @@ function App() {
   const [expandedSemesters, setexpandedSemesters] = useState([])
   const [data,setData]=useState({})
   useEffect(()=>{
+    debugger;
     setData(myFunction())
   },[])
   const rowdata = data.Department;
@@ -49,8 +50,8 @@ function App() {
   const renderValues = (values) => {
     return <div className="sub-column-heading">
       <div>{values?.Written || 0}</div>
-      <div>{values?.Practical || 0}</div>
-      <div className="border-none">{values?.Oral || 0}</div>
+      <div className="border-none">{values?.Practical || 0}</div>
+      {/* <div >{values?.Oral || 0}</div> */}
     </div>
   }
 
@@ -190,8 +191,7 @@ function App() {
             <div>{subval.value}</div>
             <div className="sub-column-heading">
               <div>Written</div>
-              <div>Practical</div>
-              <div className="border-none">Oral</div>
+              <div className="border-none">Practical</div>
             </div>
           </th>
         )}
@@ -218,8 +218,8 @@ function App() {
               </div>
               <div className="sub-column-heading">
                 <div>Written</div>
-                <div>Practical</div>
-                <div className="border-none">Oral</div>
+                <div className="border-none">Practical</div>
+                {/* <div >Oral</div> */}
               </div>
             </th>}
           </>)}</div></th>
@@ -246,8 +246,8 @@ function App() {
                     </div>
                     <div className="sub-column-heading">
                       <div>Written</div>
-                      <div>Practical</div>
-                      <div className="border-none">Oral</div>
+                      <div className="border-none">Practical</div>
+                      {/* <div >Oral</div> */}
                     </div>
                   </th>}
                 </>

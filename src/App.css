@@ -29,11 +29,15 @@ table {
   table-layout: fixed;
   border: 0.5px solid rgb(137, 131, 131);
 }
+.table-container{
+  overflow-y: auto;
+}
 
 .sub-column-heading {
   display: flex;
   font-size: 13px;
   text-align: right;
+  color: rgba(0, 0, 0, 0.6);
 }
 .columns-container {
   display: flex;
@@ -48,12 +52,54 @@ table {
 }
 .flex {
   display: flex;
+  align-items:center;
+  font-family: sans-serif;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 13px;
+  font-weight: 600;
+}
+.columns-flex{
+  display: flex;
+  align-items:center;
+  font-family: sans-serif;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 13px;
+  font-weight: 600;
+  border-bottom:1px solid grey;
+}
+.class-items-flex{
+  display: flex;
+  align-items:center;
+  margin-left:15px;
+  font-family: sans-serif;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 13px;
+  font-weight: 600;
+}
+.batch-items-flex{
+  display: flex;
+  align-items:center;
+  margin-left:30px;
+  font-family: sans-serif;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 13px;
+  font-weight: 600;
+}
+.student-items-flex{
+  display: flex;
+  align-items:center;
+  margin-left:55px;
+  font-family: sans-serif;
+  
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .sub-column-heading div {
   border-right: 1px solid rgb(137, 131, 131);
   width: calc(100% / 3);
   padding: 9px;
+  color: rgba(0, 0, 0, 0.6);
 }
 .border-none {
   border: none !important;

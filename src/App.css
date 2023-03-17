@@ -1,58 +1,60 @@
-table,tr,th,td{
-  border: 0.5px solid rgb(137, 131, 131);
-  border-collapse:collapse;
-  
+table,
+tr,
+th,
+td {
+  border-collapse: collapse;
 }
-table,tr{
-  padding:2px;
-
+table,
+tr {
+  padding: 2px;
 }
-th{
-  background-color:#e8ebe4;
-  text-align:left;
-  color:#3b4252;
+th {
+  background-color: #e8ebe4;
+  text-align: left;
+  color: #3b4252;
   font-size: 12px;
-  min-width:200px;
-
-  
+  min-width: 200px;
+  border: 0.5px solid rgb(137, 131, 131);
 }
-td{
-  background-color:#e8e8e8;
-  min-width:200px;
+td {
+  background-color: #e8e8e8;
+  min-width: 200px;
+  border: 0.5px solid rgb(137, 131, 131);
 }
-tr{
-  background-color:white;
+tr {
+  background-color: white;
 }
 
-
-table{
+table {
   table-layout: fixed;
+  border: 0.5px solid rgb(137, 131, 131);
 }
 
-.sub-column-heading{
-  display:flex;
-  width:195px;
-  font-size:13px;
-  text-align:right;
+.sub-column-heading {
+  display: flex;
+  font-size: 13px;
+  text-align: right;
 }
-.columns-container{
+.columns-container {
   display: flex;
   justify-content: space-between;
- border:0.5px solid grey;
-  padding:1px;
-
+  border: 0.5px solid grey;
+  padding: 1px;
 }
-.flex-column{
+.flex-column {
   display: flex;
   flex-direction: column;
-  font-size:12px;
+  font-size: 12px;
 }
-.flex{
+.flex {
   display: flex;
 }
 
-.sub-column-heading div{
-  border-right: 1px solid;
-  width: 100%;
-  padding:9px;
+.sub-column-heading div {
+  border-right: 1px solid rgb(137, 131, 131);
+  width: calc(100% / 3);
+  padding: 9px;
+}
+.border-none {
+  border: none !important;
 }

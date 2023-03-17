@@ -7,10 +7,10 @@ import "./App.css";
 
 function App() {
   const [expandedDepartments,setExpandedDeparments]=useState([]);
-  const [currentClass,setCurrentClass]=useState([]);
-  const [currentBatch,setCurrentBatch]=useState([]);
-  const [currentYear,setCurrentYear]=useState([])
-  const [currentSemester,setCurrentSemester]=useState([])
+  const [expandedClasses,setexpandedClasses]=useState([]);
+  const [expandedBatches,setexpandedBatches]=useState([]);
+  const [expandedYears,setexpandedYears]=useState([])
+  const [expandedSemesters,setexpandedSemesters]=useState([])
   const rowdata = data.Department;
   const columndata = data.Year;
   //onclick functions for rows display
@@ -24,20 +24,28 @@ function App() {
   }
 
   const handleClassClick=(classData)=>{
-    if(currentClass.includes(classData)){
-      setCurrentClass(currentClass.filter((item)=>item!==classData))
+    if(expandedClasses.includes(classData)){
+      setexpandedClasses(expandedClasses.filter((item)=>item!==classData))
     }
     else{
-      setCurrentClass(currentClass.concat(classData))
+      setexpandedClasses(expandedClasses.concat(classData))
     }
   }
 
   const handleBatchClick=(batchData)=>{
-    if(currentBatch.includes(batchData)){
-      setCurrentBatch(currentBatch.filter((item)=>item!==batchData))
+    if(expandedBatches.includes(batchData)){
+      setexpandedBatches(expandedBatches.filter((item)=>item!==batchData))
     }else{
-      setCurrentBatch(currentBatch.concat(batchData))
+      setexpandedBatches(expandedBatches.concat(batchData))
     }
+  }
+
+  const renderValues = (values) => {
+    return <div className="sub-column-heading">
+      <div>{values?.Written || 0}</div>
+      <div>{values?.Practical || 0}</div>
+      <div className="border-none">{values?.Oral || 0}</div>
+    </div>
   }
 
   //render functions for expanded rows display
@@ -45,18 +53,14 @@ function App() {
     return (
       subjects.map((subject) => (
         <td>
-          <div className="sub-column-heading">
-            <div>{subject.values?.Written ? subject.values?.Written : 0}</div>
-            <div>{subject.values?.Practical ? subject.values?.Practical : 0}</div>
-            <div>{subject.values?.Oral ? subject.values?.Oral : 0}</div>
-          </div>
+          {renderValues(subject.values)}
         </td>
       ))
     )
   }
 
   const checkSubjectCondition=(semester)=>{
-    return currentSemester.map((sem) => sem.value).includes(semester.value)
+    return expandedSemesters.map((sem) => sem.value).includes(semester.value)
    }
   const renderSemesterRows=(semesters)=>{
     return(
@@ -64,11 +68,7 @@ function App() {
         <>
         {checkSubjectCondition(semester) && renderSubjectRows(semester.Subject)}
         <td>
-          <div className="sub-column-heading">
-            <div>{semester.values?.Written ? semester.values?.Written: 0 }</div>
-            <div>{semester.values?.Practical ? semester.values?.Practical : 0 }</div>
-            <div>{semester.values?.Oral ? semester.values?.Oral: 0}</div>
-          </div>
+        {renderValues(semester.values)}
         </td>
         </>
       ))
@@ -82,13 +82,9 @@ function App() {
           <td>{record.value}</td>
           {record.columns.Year.map((colYear) => (
             <>
-            {currentYear.map((col) => col.value).includes(colYear.value) && renderSemesterRows(colYear.Semester)}
+            {expandedYears.map((col) => col.value).includes(colYear.value) && renderSemesterRows(colYear.Semester)}
           <td>
-            <div className="sub-column-heading">
-                  <div>{colYear.values?.Written ? colYear.values.Written : 0 }</div>
-                  <div>{colYear.values?.Practical ? colYear.values.Practical : 0}</div>
-                  <div>{colYear.values?.Oral ? colYear.values.Oral : 0}</div>
-            </div>
+          {renderValues(colYear.values)}
           </td>
           </>
            ))}
@@ -102,21 +98,17 @@ function App() {
     return batchArray?.map((record)=>{
       return(<>
       <tr>
-        <td >{currentBatch.includes(record) ? <ArrowDropDownIcon onClick={()=>{handleBatchClick(record)}}/>:<ArrowRightIcon onClick={()=>{handleBatchClick(record)}}/>}<span>{record.value}</span></td>
+        <td >{expandedBatches.includes(record) ? <ArrowDropDownIcon onClick={()=>{handleBatchClick(record)}}/>:<ArrowRightIcon onClick={()=>{handleBatchClick(record)}}/>}<span>{record.value}</span></td>
         {record.columns.Year.map((colYear) => (
           <>
-          {currentYear.map((col) => col.value).includes(colYear.value) && renderSemesterRows(colYear.Semester)}
+          {expandedYears.map((col) => col.value).includes(colYear.value) && renderSemesterRows(colYear.Semester)}
           <td>
-            <div className="sub-column-heading">
-                  <div>{colYear.values?.Written ? colYear.values.Written : 0 }</div>
-                  <div>{colYear.values?.Practical ? colYear.values.Practical : 0}</div>
-                  <div>{colYear.values?.Oral ? colYear.values.Oral : 0}</div>
-            </div>
+          {renderValues(colYear.values)}
           </td>
           </>
         ))}
       </tr>
-      {currentBatch.includes(record) && renderStudentRows(record.Student)}
+      {expandedBatches.includes(record) && renderStudentRows(record.Student)}
       </>)
     })
   }
@@ -127,43 +119,39 @@ function App() {
         return (
         <>
           <tr>
-            <td>{currentClass.includes(record) ? <ArrowDropDownIcon onClick={()=>{handleClassClick(record)}}/>:<ArrowRightIcon onClick={()=>{handleClassClick(record)}}/>}<span>{record.value}</span></td>
+            <td>{expandedClasses.includes(record) ? <ArrowDropDownIcon onClick={()=>{handleClassClick(record)}}/>:<ArrowRightIcon onClick={()=>{handleClassClick(record)}}/>}<span>{record.value}</span></td>
             {record.columns.Year.map((colYear) => (
               <>
-              {currentYear.map((col) => col.value).includes(colYear.value) && renderSemesterRows(colYear.Semester)}
+              {expandedYears.map((col) => col.value).includes(colYear.value) && renderSemesterRows(colYear.Semester)}
               <td>
-                <div className="sub-column-heading">
-                  <div>{colYear.values?.Written ? colYear.values?.Written : 0}</div>
-                  <div>{colYear.values?.Practical ? colYear.values?.Practical : 0 }</div>
-                  <div>{colYear.values?.Oral ? colYear.values?.Oral : 0}</div>
-                </div>
+                 {renderValues(colYear.values)}
               </td>
               </>
               
             ))}
             
           </tr>
-          {currentClass.includes(record) && renderBatchRows(record.Batch)}
+          {expandedClasses.includes(record) && renderBatchRows(record.Batch)}
         </>
            );
       })
   }
   //onclicks for columns section
   const handleYearClick=(columnyear)=>{
-    if(currentYear.includes(columnyear)){
-      setCurrentYear(currentYear.filter((item)=>item!==columnyear))
+    if(expandedYears.includes(columnyear)){
+      setexpandedYears(expandedYears.filter((item)=>item!==columnyear))
     }
     else{
-      setCurrentYear(currentYear.concat(columnyear))
+      setexpandedYears(expandedYears.concat(columnyear))
     }
 
   }
   const handleSemesterClick=(columnSemester)=>{
-    if(currentSemester.includes(columnSemester)){
-      setCurrentSemester(currentSemester.filter((item)=>item!==columnSemester))
+    if(expandedSemesters.includes(columnSemester)){
+      setexpandedSemesters(expandedSemesters.filter((item)=>item!==columnSemester))
     }
     else{
-      setCurrentSemester(currentSemester.concat(columnSemester))
+      setexpandedSemesters(expandedSemesters.concat(columnSemester))
     }
 
   }
@@ -190,15 +178,15 @@ const renderSemesterColumns=(yearData)=>{
   const semesterArray=yearData.Semester
   const year=yearData.value
   return (
-    <th colSpan={semesterArray.length+currentSemester.length*3}>
+    <th colSpan={semesterArray.length+expandedSemesters.length*3}>
 
       <ArrowDropDownIcon onClick={()=>{handleYearClick(yearData)}}/><span>{year}</span>
 
       <div className="flex">{semesterArray.map((semval) =>
         <>
-          {currentSemester.includes(semval) && renderSubjectsColumns(semval)}
+          {expandedSemesters.includes(semval) && renderSubjectsColumns(semval)}
           <th>
-            {currentSemester.includes(semval) ? <ArrowDropDownIcon onClick={()=>{handleSemesterClick(semval)}}/>:<ArrowRightIcon onClick={() => { handleSemesterClick(semval) }} />}
+            {expandedSemesters.includes(semval) ? <ArrowDropDownIcon onClick={()=>{handleSemesterClick(semval)}}/>:<ArrowRightIcon onClick={() => { handleSemesterClick(semval) }} />}
             <span>{semval.value}</span>
             <div className="sub-column-heading">
               <div>Written</div>
@@ -221,9 +209,9 @@ const renderSemesterColumns=(yearData)=>{
             {columndata.map((coldata) => {
               return (
                <>
-                   {currentYear.includes(coldata) && renderSemesterColumns(coldata)}
+                   {expandedYears.includes(coldata) && renderSemesterColumns(coldata)}
                 <th>
-                  {currentYear.includes(coldata) ?<ArrowDropDownIcon onClick={()=>{handleYearClick(coldata)}}/>:<ArrowRightIcon onClick={()=>{handleYearClick(coldata)}}/>}
+                  {expandedYears.includes(coldata) ?<ArrowDropDownIcon onClick={()=>{handleYearClick(coldata)}}/>:<ArrowRightIcon onClick={()=>{handleYearClick(coldata)}}/>}
                   <span>{coldata.value}</span>
                  {/* coldata.Semester===currentColumns && */}
                       <div className="sub-column-heading">
@@ -246,17 +234,13 @@ const renderSemesterColumns=(yearData)=>{
                 <td>
                   {expandedDepartments.includes(record) ?<ArrowDropDownIcon onClick={()=>{handleDepartmentClick(record)}}/>:<ArrowRightIcon onClick={()=>{handleDepartmentClick(record)}}/>}
                   <span>{record.value}</span></td>
-                 {record.columns.Year.map((colYear) => (
-                  //write the condition that we clicked the correct year
+                  {record.columns.Year.map((colYear) => (
+                  // condition that we clicked the correct year
                   <>
-                  {currentYear.map((col)=>col.value).includes(colYear.value) && renderSemesterRows(colYear.Semester)}
+                  {expandedYears.map((col)=>col.value).includes(colYear.value) && renderSemesterRows(colYear.Semester)}
                   
                   <td>
-                    <div className="sub-column-heading">
-                      <div>{colYear.values.Written}</div>
-                      <div>{colYear.values.Practical}</div>
-                      <div>{colYear.values.Oral}</div>
-                    </div>
+                     {renderValues(colYear.values)}
                   </td>
                   </>
                 ))}

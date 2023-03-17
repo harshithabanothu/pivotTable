@@ -59,14 +59,18 @@ function App() {
     )
   }
 
-  const checkSubjectCondition=(semester)=>{
-    return expandedSemesters.map((sem) => sem.value).includes(semester.value)
+  const checkSubjectCondition=(semester,year)=>{
+    const filteredYear = expandedYears.filter((yearData)=>yearData.value === year)[0].Semester
+    const filteredArray = expandedSemesters.filter(value => filteredYear.includes(value));
+    return filteredArray.map((sem) => sem.value).includes(semester.value)
    }
-  const renderSemesterRows=(semesters)=>{
+
+  const renderSemesterRows=(year)=>{
+    const semesters=year.Semester
     return(
        semesters.map((semester) => (
         <>
-        {checkSubjectCondition(semester) && renderSubjectRows(semester.Subject)}
+        {checkSubjectCondition(semester,year.value) && renderSubjectRows(semester.Subject)}
         <td>
         {renderValues(semester.values)}
         </td>
@@ -82,7 +86,7 @@ function App() {
           <td>{record.value}</td>
           {record.columns.Year.map((colYear) => (
             <>
-            {expandedYears.map((col) => col.value).includes(colYear.value) && renderSemesterRows(colYear.Semester)}
+            {expandedYears.map((col) => col.value).includes(colYear.value) && renderSemesterRows(colYear)}
           <td>
           {renderValues(colYear.values)}
           </td>
@@ -101,7 +105,7 @@ function App() {
         <td >{expandedBatches.includes(record) ? <ArrowDropDownIcon onClick={()=>{handleBatchClick(record)}}/>:<ArrowRightIcon onClick={()=>{handleBatchClick(record)}}/>}<span>{record.value}</span></td>
         {record.columns.Year.map((colYear) => (
           <>
-          {expandedYears.map((col) => col.value).includes(colYear.value) && renderSemesterRows(colYear.Semester)}
+          {expandedYears.map((col) => col.value).includes(colYear.value) && renderSemesterRows(colYear)}
           <td>
           {renderValues(colYear.values)}
           </td>
@@ -119,15 +123,19 @@ function App() {
         return (
         <>
           <tr>
-            <td>{expandedClasses.includes(record) ? <ArrowDropDownIcon onClick={()=>{handleClassClick(record)}}/>:<ArrowRightIcon onClick={()=>{handleClassClick(record)}}/>}<span>{record.value}</span></td>
+            <td>
+              <div>
+                {expandedClasses.includes(record) ? <ArrowDropDownIcon onClick={()=>{handleClassClick(record)}}/>:<ArrowRightIcon onClick={()=>{handleClassClick(record)}}/>}
+                <span>{record.value}</span>
+             </div>
+            </td>
             {record.columns.Year.map((colYear) => (
               <>
-              {expandedYears.map((col) => col.value).includes(colYear.value) && renderSemesterRows(colYear.Semester)}
-              <td>
-                 {renderValues(colYear.values)}
-              </td>
+                  {expandedYears.map((col) => col.value).includes(colYear.value) && renderSemesterRows(colYear)}
+                  <td>
+                     {renderValues(colYear.values)}
+                  </td>
               </>
-              
             ))}
             
           </tr>
@@ -167,7 +175,7 @@ function App() {
                <div className="sub-column-heading">
                            <div>Written</div>
                            <div>Practical</div>
-                           <div>Oral</div>
+                           <div className="border-none">Oral</div>
               </div>
             </th>
             )} 
@@ -177,8 +185,10 @@ function App() {
 const renderSemesterColumns=(yearData)=>{
   const semesterArray=yearData.Semester
   const year=yearData.value
+  const colSpanValue = expandedYears.filter((year)=>year.value === yearData.value)[0].Semester
+  const filteredArray = expandedSemesters.filter(value => colSpanValue.includes(value));
   return (
-    <th colSpan={semesterArray.length+expandedSemesters.length*3}>
+    <th colSpan={semesterArray.length+filteredArray.length *3}>
 
       <ArrowDropDownIcon onClick={()=>{handleYearClick(yearData)}}/><span>{year}</span>
 
@@ -186,12 +196,14 @@ const renderSemesterColumns=(yearData)=>{
         <>
           {expandedSemesters.includes(semval) && renderSubjectsColumns(semval)}
           <th>
-            {expandedSemesters.includes(semval) ? <ArrowDropDownIcon onClick={()=>{handleSemesterClick(semval)}}/>:<ArrowRightIcon onClick={() => { handleSemesterClick(semval) }} />}
-            <span>{semval.value}</span>
+            <div className="flex">
+               {expandedSemesters.includes(semval) ? <ArrowDropDownIcon onClick={()=>{handleSemesterClick(semval)}}/>:<ArrowRightIcon onClick={() => { handleSemesterClick(semval) }} />}
+               <span>{semval.value}</span>
+            </div>
             <div className="sub-column-heading">
               <div>Written</div>
               <div>Practical</div>
-              <div>Oral</div>
+              <div className="border-none">Oral</div>
               </div>
             </th>
           </>)}</div></th>
@@ -211,13 +223,15 @@ const renderSemesterColumns=(yearData)=>{
                <>
                    {expandedYears.includes(coldata) && renderSemesterColumns(coldata)}
                 <th>
-                  {expandedYears.includes(coldata) ?<ArrowDropDownIcon onClick={()=>{handleYearClick(coldata)}}/>:<ArrowRightIcon onClick={()=>{handleYearClick(coldata)}}/>}
-                  <span>{coldata.value}</span>
+                  <div className="flex">
+                      {expandedYears.includes(coldata) ? <ArrowDropDownIcon onClick={()=>{handleYearClick(coldata)}}/>:<ArrowRightIcon onClick={()=>{handleYearClick(coldata)}}/>}
+                      <span>{coldata.value}</span>
+                  </div>
                  {/* coldata.Semester===currentColumns && */}
                       <div className="sub-column-heading">
                            <div>Written</div>
                            <div>Practical</div>
-                           <div>Oral</div>
+                           <div className="border-none">Oral</div>
                       </div>
                 </th>
                 </>
@@ -232,12 +246,15 @@ const renderSemesterColumns=(yearData)=>{
 
               <tr>
                 <td>
-                  {expandedDepartments.includes(record) ?<ArrowDropDownIcon onClick={()=>{handleDepartmentClick(record)}}/>:<ArrowRightIcon onClick={()=>{handleDepartmentClick(record)}}/>}
-                  <span>{record.value}</span></td>
+                  <div className="flex">
+                     {expandedDepartments.includes(record) ?<ArrowDropDownIcon onClick={()=>{handleDepartmentClick(record)}}/>:<ArrowRightIcon onClick={()=>{handleDepartmentClick(record)}}/>}
+                     <span>{record.value}</span>
+                  </div>
+                  </td>
                   {record.columns.Year.map((colYear) => (
                   // condition that we clicked the correct year
                   <>
-                  {expandedYears.map((col)=>col.value).includes(colYear.value) && renderSemesterRows(colYear.Semester)}
+                  {expandedYears.map((col)=>col.value).includes(colYear.value) && renderSemesterRows(colYear)}
                   
                   <td>
                      {renderValues(colYear.values)}

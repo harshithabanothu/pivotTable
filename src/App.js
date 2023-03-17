@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import data from "./data.json";
+import React, { useState,useEffect } from "react";
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import "./App.css";
+import { myFunction } from "./script";
 
 
 function App() {
@@ -11,8 +11,14 @@ function App() {
   const [expandedBatches, setexpandedBatches] = useState([]);
   const [expandedYears, setexpandedYears] = useState([])
   const [expandedSemesters, setexpandedSemesters] = useState([])
+  const [data,setData]=useState({})
+  useEffect(()=>{
+    setData(myFunction())
+  },[])
   const rowdata = data.Department;
   const columndata = data.Year;
+
+
   //onclick functions for rows display
   const handleDepartmentClick = (departmentData) => {
     if (expandedDepartments.includes(departmentData)) {
@@ -229,7 +235,7 @@ function App() {
         <thead>
           <tr>
             <th></th>
-            {columndata.map((coldata) => {
+            {columndata?.map((coldata) => {
               return (
                 <>
                   {expandedYears.includes(coldata) && renderSemesterColumns(coldata)}
@@ -250,7 +256,7 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {rowdata.map((record) => {
+          {rowdata?.map((record) => {
             return (
               <>
 

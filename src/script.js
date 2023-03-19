@@ -2,60 +2,69 @@
    export  function myFunction() {
       // Your task goes here
       //code for generating the array of objects
+      debugger;
       let department = [
         "Department 1",
         "Department 2",
         "Department 3",
         "Department 4",
-        "Department 5",
-        "Department 6",
-        "Department 7",
-        "Department 8",
-        "Department 9",
-        "Department 10",
+        "Department 5"
+        // "Department 6",
+        // "Department 7",
+        // "Department 8",
+        // "Department 9",
+        // "Department 10",
       ];
+      let classes = ["Class A","Class B"];
       let subjects = ["Subject 1", "Subject 2", "Subject 3"];
       let batches = [
         "Batch 1",
         "Batch 2",
         "Batch 3",
-        "Batch 4",
-        "Batch 5",
-        "Batch 6",
-        "Batch 7",
-        "Batch 8",
-        "Batch 9",
-        "Batch 10",
+        "Batch 4"
       ];
-
-      let dataArray = [];
-
-      for (let i = 0; i < 500; i++) {
-        let studentID = "STU" + i.toString().padStart(4, "0");
+      let Semester = ["Summer" , "Winter"];
+      let dataArray = [];          
+      for (let i = 0; i < 100000; i++) {
+        let bIndex = Math.floor(Math.random() * batches.length);
+        let batch = batches[bIndex];
+        let studentID = "Student " + (Math.floor(Math.random() * 14) + 1 + 15 * bIndex);
 
         let newObj = {
           Student: studentID,
           Department:
             department[Math.floor(Math.random() * department.length)],
-          Year: Math.floor(Math.random() * 5) + 2000,
-          Semester: Math.floor(Math.random() * 4) + 1,
-          Class: String.fromCharCode(65 + Math.floor(Math.random() * 4)),
-          Batch: batches[Math.floor(Math.random() * batches.length)],
+          Year: Math.floor(Math.random() * 4) + 2000,
+          Semester: Semester[Math.floor(Math.random() * Semester.length)],
+          Class: classes[Math.floor(Math.random() * classes.length)],
+          Batch: batch,
           Subject: subjects[Math.floor(Math.random() * subjects.length)],
-          Written: Math.floor(Math.random() * 51),
-          Practical: Math.floor(Math.random() * 31),
-          Oral: Math.floor(Math.random() * 21),
+          Written: Math.floor(Math.random() * 40) + 10,
+          Practical: Math.floor(Math.random() * 40) + 10,
+          Oral: Math.floor(Math.random() * 40) + 10,
         };
         dataArray.push(newObj);
       }
-      dataArray.sort((a,b)=>{return a.Year-b.Year});
+      // dataArray.sort((a,b)=>{return a.Year-b.Year});
       const pivotDataRow = {};
       const rows = ["Department", "Class", "Batch", "Student"];
       const columns = ["Year", "Semester", "Subject"];
-      const values = ["Written", "Practical", "Oral"];
+      const values = ["Written", "Practical"];
 
       const pivotDataColumn = {};
 
+      // let dA = dataArray.sort((a,b)=>{
+      //   if(a.Year == b.Year){
+      //     if(a.Semester == b.Semester){
+      //       return a.Subject < b.Subject ? -1 : 1;
+      //     }else{
+      //       return a.Semester < b.Semester ? -1 : 1;
+      //     }
+      //   }else{
+      //     return a.Year-b.Year;
+      //   }
+      // })
+      let d = new Date();  
       dataArray.forEach((record) => {
         
         if (!pivotDataColumn[columns[0]]) {
@@ -222,7 +231,10 @@
         }
       });
       pivotDataRow.Department = pivotDataRow.Department.sort((a,b)=> (parseInt(a.value.split(" ")[1])) - (parseInt(b.value.split(" ")[1])));
-      return( {...pivotDataRow,...pivotDataColumn});
+      let d1 = new Date();
+      let sec = d1.getTime() - d.getTime();
+      console.log("Actual Time taken:" + sec);   
+      return( {...pivotDataRow,...pivotDataColumn});      
     }
     function prepareAggregation(record, columnsData1, obj){
       const columns = ["Year", "Semester", "Subject"];
@@ -245,7 +257,7 @@
         return obj["columns"];     
     }
     function addValues(obj , record){
-      const values = ["Written", "Practical", "Oral"];
+      const values = ["Written", "Practical"];
       if(!obj.values){
         obj.values = {};
       }

@@ -107,6 +107,9 @@ table {
 .border-none {
   border: none !important;
 }
+.subjects-container{
+  border-bottom:1px solid grey;
+}
 
 .flex-freeze{
   display: flex;

@@ -223,7 +223,7 @@ function App() {
         <span>{semester}</span>
         {subjectArray.map((subval) => (
           <th>
-            <div>{subval.value}</div>
+            <div className="subjects-container">{subval.value}</div>
             <div className="sub-column-heading">
               <div>Written</div>
               <div className="border-none">Practical</div>

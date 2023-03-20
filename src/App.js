@@ -10,10 +10,11 @@ function App() {
   const [expandedBatches, setexpandedBatches] = useState([]);
   const [expandedYears, setexpandedYears] = useState([]);
   const [expandedSemesters, setexpandedSemesters] = useState([]);
-  const [data, setData] = useState({});
-  useEffect(() => {
-      setData(myFunction());
-  }, []);
+  // const [data, setData] = useState({});
+  // useEffect(() => {
+  //     setData(myFunction());
+  // }, []);
+  let data = myFunction();
   const rowdata = data.Department;
   const columndata = data.Year;
 

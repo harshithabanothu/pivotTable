@@ -31,6 +31,7 @@ table {
 }
 .table-container{
   overflow-y: auto;
+  margin:auto !important
 }
 
 .sub-column-heading {
@@ -57,6 +58,9 @@ table {
   color: rgba(0, 0, 0, 0.6);
   font-size: 13px;
   font-weight: 600;
+  margin-left: -1px;
+  margin-right: -1px;
+  margin-bottom: -1px;
 }
 .columns-flex{
   display: flex;
@@ -90,14 +94,13 @@ table {
   align-items:center;
   margin-left:55px;
   font-family: sans-serif;
-  
   font-size: 13px;
   font-weight: 600;
 }
 
 .sub-column-heading div {
   border-right: 1px solid rgb(137, 131, 131);
-  width: calc(100% / 3);
+  width: calc(100% / 2);
   padding: 9px;
   color: rgba(0, 0, 0, 0.6);
 }
